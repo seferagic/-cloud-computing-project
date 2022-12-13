@@ -44,5 +44,3 @@ Tim
 Daniel
 
 - Lorem ipsum dolor sit amet
-
-- Deployment configuration for routing engines
