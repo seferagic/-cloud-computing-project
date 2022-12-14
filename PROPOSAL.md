@@ -42,11 +42,11 @@ Our goal is to explore and understand the potential of Tekton and also tap into 
 
 This technology is new for us and we aim to learn all parts of it, we try to work together and include everyone in the process of implementing Milestone 2. Because our scope will also be completely clear after Milestone 1, we can decide to further split responsibilities there. Once the main project is implemented (Milestone 2 is finished) we will devide the work for the final submission as follows:
 
-**Eva**
+**Eva Mayer (k11826767)**
 - Demo
 
-**Tim**
+**Tim Seferagic (k11814937)**
 - Documentation
 
-**Daniel**
+**Daniel Raso (k11904965)**
 - Presentation
