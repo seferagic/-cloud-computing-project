@@ -40,13 +40,13 @@ Our goal is to explore and understand the potential of Tekton and also tap into 
 
 ## Responsibilities
 
-This technology is new for us and we aim to learn all parts of it, we try to work together and include everyone in the process. Because our scope will also be completly clear after Milestone 1, it is hard for us to splitt responsibilities.
+This technology is new for us and we aim to learn all parts of it, we try to work together and include everyone in the process of implementing Milestone 2. Because our scope will also be completely clear after Milestone 1, we can decide to further split responsibilities there. Once the main project is implemented (Milestone 2 is finished) we will devide the work for the final submission as follows:
 
-Eva
+**Eva**
 - Demo
 
-Tim
+**Tim**
 - Documentation
 
-Daniel
+**Daniel**
 - Presentation
