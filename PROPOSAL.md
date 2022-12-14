@@ -20,19 +20,40 @@ sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
 
 ### Milestone 1
 
-Lorem ipsum dolor sit amet
+Get familiar with Tekton, what it is, what it does and how it basically works.
 
 ### Milestone 2
 
-Lorem ipsum dolor sit amet
+Install Tekton on one of our clusters.
 
 ### Milestone 3
 
-Lorem ipsum dolor sit amet
+Develop a very simple application for presentation purposes.
+
+### Milestone 4
+
+Define some *Steps* (e.g., executing some unit tests, linting, etc.),
+group them in *Tasks* (YAML) and apply those tasks to our cluster.
+Also, choose some tasks from the *Tekton Catalog* and install those as well.
+
+### Milestone 5
+
+Define a *Pipeline* (YAML) as a collection of tasks. 
+
+### Milestone 6
+
+Execute the pipeline and tasks by creating *PipelineRun*s (there are also *TaskRun*s) and observe logs.
+
+### Milestone 7
+
+After the manual execution from above, try to automate this process by defining a Tekton *Trigger*, which creates a run automatically on demand (e.g., after a developers does a git push). 
 
 
 ## Responsibilities
 
+Instead of splitting the workload, we aim to work on the todos live together.
+
+------ des drunter löschen i guess
 Eva
 
 - Lorem ipsum dolor sit amet
