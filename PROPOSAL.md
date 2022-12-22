@@ -4,32 +4,51 @@
 
 ## Idea
 
-For this project we want build a CI/CD system for a simple application with the use of Tekton.
+For this project we want build a CI/CD system for a simple application in a two stage environment with the use of Tekton.
 
 
 ### Description
 
-We want to get familiar with Tekton and the Art of implementing a CI/CD system. 
+For our CI/CD system we will implement two Tekton Pipelines: one for the staging environment and one for the production. We will make use of Tekton Triggers to execute these pipelines automatically. The whole deployment process from commit to production will look as follows:
 
-Defining the exact implementation steps is difficult without the full knowledge of the potental of Tekton. This we will gain during Milestone 1 and add in the README. 
+```mermaid
+flowchart LR;
+  A[Commit on Development]-->B[Clone];
+  subgraph development pipeline;
+    direction TB;
+    B-->C[Lint];
+    C-->D[Test];
+    D-->E[Build];
+    E-->F[Run Staging system];
+  end;
+  subgraph production pipeline;
+    direction LR;
+    H-->I[Test];
+    I-->J[Build];
+    J-->K[Run Live System];
+  end;
+  F-.->G{{"after fixed time frame"}};
+  G-.->H[Clone];     
+```
 
-Our goal is to explore and understand the potential of Tekton and also tap into some corner cases. We will implement our findings and conclude them in a demonstration for the final presentation.
+We will trigger the development pipeline automatically every time a commit to the development branch is made. After a successful development pipeline, the application runs on an online staging environment. After a fixed amount of time of the staging environment being online and working (e.g. one month, 10 successful commits on dev), the production pipeline is triggered automatically to create a patch update on the live system.
 
+### Kubernetes CRD(Custom Resource Definition)
+A custom resource is an extension of the Kubernetes API that is not necessarily available in a default Kubernetes installation. A custom resource definition is a defined custom resource. Tekton is based on Kubernetes CRDs.
+
+In our project we plan to use `PipelineResource`, `Task`, `TaskRun`, `Pipeline`, `PipelineRun`, `EventListener`, `Trigger`, `TriggerBinding`
 
 ## Milestones
 
 ### Milestone 1 (Understanding Tekton & Setup - 25.12.2022)
-- Get familiar with Tekton, what it is, what it does and how it basically works. Finish the tutorial & look through their documentation.
-
 - First draft and setup. Install Tekton on our clusters. Develop a simple application that will be used for the pipeline.
 
-
 ### Milestone 2 (Implementing our Project - 15.01.2023)
-- Define some *Steps* (e.g., executing some unit tests, linting, etc.), group them in *Tasks* (YAML) and apply those tasks to our cluster.
-- Also, choose some tasks from the *Tekton Catalog* and install those as well.
+- Implement application *Steps*/*Tasks* (YAML) - as explained above and create *TaskRuns*
+- Use tasks from the *Tekton Catalog* (clone, lint, test, build,..)
 - Define a *Pipeline* (YAML) as a collection of tasks. 
-- Execute the pipeline and tasks by creating *PipelineRun*s (there are also *TaskRun*s) and observe logs.
-- After the manual execution from above, try to automate this process by defining a Tekton *Trigger*, which creates a run automatically on demand (e.g., after a developers does a git push). 
+- Create *PipelineRun*s.
+- After the manual execution from above, automate this process by defining a Tekton *Trigger*, which creates a run automatically on demand (e.g., after a developers does a git push). 
 
 ### Milestone 3 (Submission - 18.01.2023)
 - Test our implementation.
@@ -40,7 +59,7 @@ Our goal is to explore and understand the potential of Tekton and also tap into 
 
 ## Responsibilities
 
-This technology is new for us and we aim to learn all parts of it, we try to work together and include everyone in the process of implementing Milestone 2. Because our scope will also be completely clear after Milestone 1, we can decide to further split responsibilities there. Once the main project is implemented (Milestone 2 is finished) we will devide the work for the final submission as follows:
+This technology is new for us and we aim to learn all parts of it, we try to work together and include everyone in the process of implementing Milestone 2. Because our scope will also be completely clear after Milestone 1, we can decide to further split responsibilities there. Once the main project is implemented (Milestone 2 is finished) we will divide the work for the final submission as follows:
 
 **Eva Mayer (k11826767)**
 - Demo
