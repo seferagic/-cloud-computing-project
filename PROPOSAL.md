@@ -34,6 +34,7 @@ flowchart LR;
 We will trigger the development pipeline automatically every time a commit to the development branch is made. After a successful development pipeline, the application runs on an online staging environment. After a fixed amount of time of the staging environment being online and working (e.g. one month, 10 successful commits on dev), the production pipeline is triggered automatically to create a patch update on the live system.
 
 ### Kubernetes CRD(Custom Resource Definition)
+The Kubernetes API consists of a set of resources that store a collection of API objects of a certain kind (e.g., the built-in pods resource contains a collection of Pod objects; deployment resource, replicaset resource, etc.). The command `kubectl api-resources` lists all the resource types available in a cluster. So we can use it by combining it with the `kubectl get` command to list every instance of every resource type in a Kubernetes namespace.
 A custom resource is an extension of the Kubernetes API that is not necessarily available in a default Kubernetes installation. A custom resource definition is a defined custom resource. Tekton is based on Kubernetes CRDs.
 
 In our project we plan to use `PipelineResource`, `Task`, `TaskRun`, `Pipeline`, `PipelineRun`, `EventListener`, `Trigger`, `TriggerBinding`
