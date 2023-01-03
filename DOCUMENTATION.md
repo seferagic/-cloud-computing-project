@@ -41,3 +41,16 @@ https://tekton.dev/docs/getting-started/pipelines/
 
 ### Install tkn 
 https://tekton.dev/docs/cli/
+
+
+---
+
+TODO: 
+
+- [ ] Test pipeline run like on https://github.com/jerop/tekton-demo
+- [ ] Create a pipeline run file
+- [ ] Create triggers
+- [ ] Test if works with pushes that staging is deployed
+- [ ] Change go to java project - golang-run to java-run
+- [ ] Implement GitHub Action to Trigger release after time period
+- [ ] Implement pipeline for production env.
