@@ -1,4 +1,11 @@
-#Dokumentation
+# Dokumentation
+
+## Authenticate cluster access
+- go to cluster in google cloud, press the three dots on the right of the cluster and click "Connect". Copy the given command into your command line ;)
+
+
+# Task Tutorial 
+https://tekton.dev/docs/getting-started/pipelines/
 
 ## Install tekton on cluster
 `kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml`
