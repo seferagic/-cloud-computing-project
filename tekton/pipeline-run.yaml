@@ -1,0 +1,12 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata: 
+  generateName: pipeline-run
+spec:
+  params:
+    - name: api-url
+      value: gcp.com
+    - name: cloud-region
+      value: us-east
+  pipelineRef:
+    - name: pipeline
