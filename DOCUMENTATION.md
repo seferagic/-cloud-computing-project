@@ -42,13 +42,39 @@ https://tekton.dev/docs/getting-started/pipelines/
 ### Install tkn 
 https://tekton.dev/docs/cli/
 
+### TODO not tested waiting for https://github.com/tektoncd/pipeline/issues/5932
+```
+  # Install Tasks from the Catalog
+  tkn hub install task git-clone
+  tkn hub install task golang-test
+  tkn hub install task golangci-lint
+  tkn hub install task golang-build
 
+  # Install Golang Run Task 
+  kubectl apply -f tekton/golang-run.yaml
+
+  # Install the Pipeline
+  kubectl apply -f tekton/pipeline.yaml
+
+  # Make the Persistent Volume Claim that we'll be using 
+  kubectl apply -f tekton/workspace.yaml
+  
+  # Execute Pipeline run
+  kubectl apply -f tekton/pipeline-run.yaml
+  
+  tkn pipelinerun ls
+  tkn pipelinerun describe -L
+  tkn taskrun describe <taskRunName>
+  kubectl describe tr <taskRunName>
+  kubectl get -o yaml pod <podName> | less
+```
 ---
 
 TODO: 
 
-- [ ] Test pipeline run like on https://github.com/jerop/tekton-demo
-- [ ] Create a pipeline run file
+- [ ] Test pipeline run like on https://github.com/jerop/tekton-demo, does not work yet: https://github.com/tektoncd/pipeline/issues/5932
+- [x] Create a pipeline run file
+- [ ] Test pipeline run!
 - [ ] Create triggers
 - [ ] Test if works with pushes that staging is deployed
 - [ ] Change go to java project - golang-run to java-run
