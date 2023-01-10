@@ -8,6 +8,13 @@ spec:
     default: "Kubernetes"
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
+    kind: TaskRun
+    metadata:
+      name: hello-task-run-
+    spec:
+      taskRef:
+        name: hello  
+  - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
     metadata:
       generateName: hello-goodbye-run-
