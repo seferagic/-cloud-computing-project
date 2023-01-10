@@ -8,7 +8,7 @@ spec:
       serviceType: LoadBalancer
   serviceAccountName: tekton-robot
   triggers:
-    - name: hello-trigger
+    name: hello-trigger
     interceptors:
       - name: "validate GitHub payload and filter on eventType"
       - ref:
