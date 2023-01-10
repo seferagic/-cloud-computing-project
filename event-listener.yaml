@@ -11,11 +11,11 @@ spec:
     - name: hello-trigger
       interceptors:
         - name: "execute pipeline only for specific branch pushes"
-          ref:
-            name: "cel"
+        - ref:
+            name: cel
           params:
-            - name: "filter"
-              value: "body.ref == 'refs/heads/main'"
+          - name: filter
+            value: "body.ref == 'refs/heads/main'"
       bindings:
       - ref: hello-binding
       template:
