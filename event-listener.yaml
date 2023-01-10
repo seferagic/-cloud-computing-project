@@ -22,7 +22,7 @@ spec:
       params:
       - name: "filter"
         value: "body.ref == 'refs/heads/main'"
-      bindings:
-      - ref: hello-binding
-      template:
-        ref: hello-template
+    bindings:
+    - ref: hello-binding
+    template:
+      ref: hello-template
