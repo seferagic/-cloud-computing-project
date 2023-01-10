@@ -10,18 +10,18 @@ spec:
   triggers:
     - name: hello-trigger
     interceptors:
-        - name: "validate GitHub payload and filter on eventType"
-          ref:
-            name: "github"
-          params:
-          - name: "eventTypes"
-            value: ["push"]
-        - name: "CEL filter: only when push on dev branch"
-          ref:
-            name: "cel"
-          params:
-          - name: "filter"
-            value: "body.ref == 'refs/heads/main'"
+      - name: "validate GitHub payload and filter on eventType"
+      - ref:
+          name: "github"
+        params:
+        - name: "eventTypes"
+          value: ["push"]
+      - name: "CEL filter: only when push on dev branch"
+      - ref:
+          name: "cel"
+        params:
+        - name: "filter"
+          value: "body.ref == 'refs/heads/main'"
       bindings:
       - ref: hello-binding
       template:
