@@ -3,12 +3,9 @@ kind: EventListener
 metadata:
   name: hello-listener
 spec:
-  resources:
-    kubernetesResource:
-      serviceType: LoadBalancer
   serviceAccountName: tekton-robot
   triggers:
-    - name: hello-trigger
+    - name: hello-trigger 
       bindings:
       - ref: hello-binding
       template:
