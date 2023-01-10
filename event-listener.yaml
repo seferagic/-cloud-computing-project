@@ -8,7 +8,10 @@ spec:
       serviceType: LoadBalancer
   serviceAccountName: tekton-robot
   triggers:
-    - name: hello-trigger 
+    - name: hello-trigger
+      interceptors:
+      - cel:
+        filter: "body.ref == 'refs/heads/main'"
       bindings:
       - ref: hello-binding
       template:
