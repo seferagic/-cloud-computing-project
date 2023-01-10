@@ -9,12 +9,6 @@ spec:
   serviceAccountName: tekton-robot
   triggers:
     - name: hello-trigger
-    interceptors:
-      - ref:
-          name: "cel"
-        params:
-        - name: "filter"
-          value: "body.ref == 'refs/heads/main'"
       bindings:
       - ref: hello-binding
       template:
