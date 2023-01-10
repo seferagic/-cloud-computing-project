@@ -10,12 +10,16 @@ spec:
   triggers:
     - name: hello-trigger
       interceptors:
-      - github:
-          eventTypes:
-          - push
-      - cel:
-          filter: >-
-            "body.ref == 'refs/heads/main'"
+        - ref:
+            name: "github"
+          params:
+            - name: "eventTypes"
+              value: ["pull_request"]
+          ref:
+            name: "cel"
+          params:
+            - name: "filter"
+              value: "body.ref == 'refs/heads/main'"
       bindings:
       - ref: hello-binding
       template:
