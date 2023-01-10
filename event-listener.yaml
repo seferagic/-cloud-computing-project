@@ -10,12 +10,12 @@ spec:
   triggers:
     - name: hello-trigger
       interceptors:
-        - name: "execute pipeline only for specific branch pushes"
-        - ref:
-            name: cel
-          params:
-          - name: filter
-            value: "body.ref == 'refs/heads/main'"
+      - github:
+          eventTypes:
+          - push
+      - cel:
+          filter: >-
+            "body.ref == 'refs/heads/main'"
       bindings:
       - ref: hello-binding
       template:
