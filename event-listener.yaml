@@ -26,3 +26,15 @@ spec:
       - ref: hello-binding
       template:
         ref: hello-template
+    - name: hello-trigger2
+      interceptors:
+      - name: "CEL filter: only when PRs are opened"
+        ref:
+          name: "cel"
+        params:
+        - name: "filter"
+          value: "body.ref == 'refs/heads/main'"
+      bindings:
+      - ref: hello-binding
+      template:
+        ref: hello-template
