@@ -9,6 +9,19 @@ spec:
   serviceAccountName: tekton-robot
   triggers:
     - name: hello-trigger
+    interceptors:
+    - name: "validate GitHub payload and filter on eventType"
+      ref:
+        name: "github"
+      params:
+      - name: "eventTypes"
+        value: ["push"]
+    - name: "CEL filter: only when PRs are opened"
+      ref:
+        name: "cel"
+      params:
+      - name: "filter"
+        value: "body.ref == 'refs/heads/main'"
       bindings:
       - ref: hello-binding
       template:
