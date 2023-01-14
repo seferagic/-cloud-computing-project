@@ -9,7 +9,7 @@ spec:
   - name: pusher
     type: string
   steps:
-    - name: push logger
+    - name: push_logger
       image: ubuntu
       script: |
         #!/bin/bash
