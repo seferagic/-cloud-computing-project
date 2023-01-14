@@ -4,11 +4,14 @@ metadata:
   name: goodbye
 spec:
   params:
-  - name: username
+  - name: repoName
+    type: string
+  - name: pusher
     type: string
   steps:
-    - name: goodbye
+    - name: push logger
       image: ubuntu
       script: |
         #!/bin/bash
-        echo "Goodbye $(params.username)!"
+        DATE=$(date '+%F %T')
+        echo "[$DATE] - $(params.pusher) pushed on $(params.repoName)"
