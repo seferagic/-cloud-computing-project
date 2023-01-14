@@ -14,4 +14,4 @@ spec:
       script: |
         #!/bin/bash
         DATE=$(date '+%F %T')
-        echo "[$DATE] - $(params.pusher) pushed on $(params.repoName)"
+        echo "[$DATE] - $(params.pusher) pushed to $(params.repoName)"
