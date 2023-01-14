@@ -4,5 +4,7 @@ metadata:
   name: hello-binding
 spec: 
   params:
-  - name: username
-    value: $(body.username)
+  - name: repoName
+    value: $(body.repository.url)
+  - name: pusher
+     value: $(body.pusher.name)
