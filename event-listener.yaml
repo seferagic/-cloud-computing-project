@@ -32,6 +32,16 @@ spec:
         ref: hello-template
     - name: hello-trigger2
       interceptors:
+      - name: "validate GitHub payload and filter on eventType"
+        ref:
+          name: "github"
+        params:
+        - name: "secretRef"
+          value:
+            secretName: github-trigger-secret
+            secretKey: secretToken
+        - name: "eventTypes"
+          value: ["push"]      
       - name: "CEL filter: only when PRs are opened"
         ref:
           name: "cel"
