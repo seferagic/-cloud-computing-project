@@ -4,7 +4,9 @@ metadata:
   name: hello-goodbye
 spec:
   params:
-  - name: username
+  - name: repoName
+    type: string
+  - name: pusher
     type: string
   tasks:
     - name: hello
@@ -16,5 +18,7 @@ spec:
       taskRef:
         name: goodbye
       params:
-      - name: username
-        value: $(params.username)
+      - name: repoName
+        value: $(params.repoName)
+      - name: pusher
+        value: $(params.pusher)
