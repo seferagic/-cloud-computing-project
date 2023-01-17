@@ -9,6 +9,8 @@ spec:
     default: "REPOURL_NOT_FOUND"
   - name: pusher
     default: "PUSHER_NOT_FOUND"
+  - name: package
+    default: github.com/danielraso7/cloud-computing-project-demoapp/tree/dev
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
@@ -17,8 +19,22 @@ spec:
     spec:
       pipelineRef:
         name: dev-pipeline
+      podTemplate:
+        securityContext:
+          fsGroup: 65532
+      workspaces:
+      - name: shared-data
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
       params:
       - name: repoUrl
         value: $(tt.params.repoUrl)
       - name: pusher
         value: $(tt.params.pusher)
+      - name: package
+        value: $(tt.params.package)

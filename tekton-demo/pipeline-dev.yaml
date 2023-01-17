@@ -9,6 +9,11 @@ spec:
     type: string
   - name: pusher
     type: string
+  - name: package
+    type: string
+  workspaces: 
+  - name: shared-data
+    description: This workspace contains the cloned repo files, so they can be read by the next task.
   tasks:
     - name: dev-logger
       taskRef:
@@ -18,3 +23,24 @@ spec:
         value: $(params.repoUrl)
       - name: pusher
         value: $(params.pusher)
+    - name: clone
+      taskRef:
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: shared-data
+      params:
+      - name: url
+        value: $(params.repoUrl) # this should be the url of the dev
+    - name: lint
+      taskRef:
+        name: golangci-lint
+      workspaces:
+      - name: source
+        workspace: shared-data
+      params:
+      - name: package
+        value: $(params.package)
+      - name: flags
+        value: --verbose
+
