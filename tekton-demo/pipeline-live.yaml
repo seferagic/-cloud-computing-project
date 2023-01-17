@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: live-pipeline
+  namespace: tekton-demo
+spec:
+  params:
+  - name: branch
+    type: string
+  - name: mergedBy
+    type: string
+  tasks:
+    - name: live-logger
+      taskRef:
+        name: live-logger
+      params:
+      - name: branch
+        value: $(params.branch)
+      - name: mergedBy
+        value: $(params.mergedBy)

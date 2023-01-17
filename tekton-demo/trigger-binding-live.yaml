@@ -1,0 +1,11 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: live-binding
+  namespace: tekton-demo
+spec: 
+  params:
+  - name: branch
+    value: $(body.pull_request.head.ref)
+  - name: mergedBy
+    value: $(body.pull_request.merged_by.login)

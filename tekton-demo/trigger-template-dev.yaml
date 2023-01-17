@@ -1,0 +1,24 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: dev-template
+  namespace: tekton-demo
+spec:
+  params:
+  - name: repoUrl
+    default: "REPOURL_NOT_FOUND"
+  - name: pusher
+    default: "PUSHER_NOT_FOUND"
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: dev-pipeline-
+    spec:
+      pipelineRef:
+        name: dev-pipeline
+      params:
+      - name: repoUrl
+        value: $(tt.params.repoUrl)
+      - name: pusher
+        value: $(tt.params.pusher)

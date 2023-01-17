@@ -1,0 +1,24 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: live-template
+  namespace: tekton-demo
+spec:
+  params:
+  - name: branch
+    default: "BRANCH_NOT_FOUND"
+  - name: mergedBy
+    default: "MERGER_NOT_FOUND"
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: live-pipeline-
+    spec:
+      pipelineRef:
+        name: live-pipeline
+      params:
+      - name: branch
+        value: $(tt.params.branch)
+      - name: mergedBy
+        value: $(tt.params.mergedBy)

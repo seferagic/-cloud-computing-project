@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: live-logger
+  namespace: tekton-demo
+spec:
+  params:
+  - name: branch
+    type: string
+  - name: mergedBy
+    type: string
+  steps:
+    - name: log
+      image: ubuntu
+      script: |
+        #!/bin/bash
+        DATE=$(date '+%F %T')
+        echo "[$DATE] - $(params.mergedBy) merged $(params.branch) branch"
