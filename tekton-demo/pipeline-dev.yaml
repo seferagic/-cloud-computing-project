@@ -33,6 +33,7 @@ spec:
       - name: url
         value: $(params.repoUrl) # this should be the url of the dev
     - name: lint
+      runAfter: [clone]
       taskRef:
         name: golangci-lint
       workspaces:
