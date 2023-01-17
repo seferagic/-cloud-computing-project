@@ -2,6 +2,7 @@ apiVersion: tekton.dev/v1
 kind: Task
 metadata:
   name: golang-run
+  namespace: namespace-eva
   labels:
     app.kubernetes.io/version: "0.1"
   annotations:
