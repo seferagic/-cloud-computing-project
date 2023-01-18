@@ -1,4 +1,4 @@
-# Cloud Computing Project
+# Tekton - Cloud Native CI/CD
 
 This is the repo of the project for the course Special Topics Cloud Computing at the JKU Linz.
 
