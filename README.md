@@ -84,10 +84,10 @@ clusterrolebinding.rbac.authorization.k8s.io/triggers-example-eventlistener-clus
 The interceptor of type "github" (definied in the eventlistener.yaml) checks if various constraints are met, including the check for the correct secret sent by GitHub. The secret is definied here:  
 `kubectl apply -f secret.yaml`  
 
-Last but not least, we create an eventlistener of service type "load balancer" (so we can access it from the outside rather than only from localhost with port forwarding). 
+Last but not least, we create an eventlistener of service type "load balancer" (so we can access it from the outside rather than only from localhost with port forwarding).  
 `kubectl apply -f eventlistener.yaml`  
 
-
+Start the Tekton Dashboard using port forwarding.  
 `kubectl -n tekton-pipelines port-forward svc/tekton-dashboard 9097:9097`  
 
 ### GitHub Webhook
