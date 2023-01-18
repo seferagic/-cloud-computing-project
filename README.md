@@ -26,6 +26,17 @@ Tekton is a powerful yet flexible Kubernetes-native open source framework for cr
 ### Requirements
 
 ### Commands
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml`
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml`  
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml`  
+`kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml`
+``  
+``  
+``  
+``  
+``  
+``  
+``  
 
 ### GitHub Webhook
 
