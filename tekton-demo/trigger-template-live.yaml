@@ -17,6 +17,18 @@ spec:
     spec:
       pipelineRef:
         name: live-pipeline
+      podTemplate:
+        securityContext:
+          fsGroup: 65532
+      workspaces:
+      - name: shared-data-live
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
       params:
       - name: branch
         value: $(tt.params.branch)

@@ -9,8 +9,8 @@ spec:
     default: "REPOURL_NOT_FOUND"
   - name: pusher
     default: "PUSHER_NOT_FOUND"
-  - name: package
-    default: github.com/danielraso7/cloud-computing-project-demoapp/tree/dev
+  - name: branch-name
+    default: "dev"
   resourcetemplates:
   - apiVersion: tekton.dev/v1beta1
     kind: PipelineRun
@@ -36,5 +36,5 @@ spec:
         value: $(tt.params.repoUrl)
       - name: pusher
         value: $(tt.params.pusher)
-      - name: package
-        value: $(tt.params.package)
+      - name: branch-name
+        value: $(tt.params.branch-name) 

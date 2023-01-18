@@ -9,8 +9,9 @@ spec:
     type: string
   - name: pusher
     type: string
-  - name: package
+  - name: branch-name
     type: string
+    description: The git branch to clone.
   workspaces: 
   - name: shared-data
     description: This workspace contains the cloned repo files, so they can be read by the next task.
@@ -31,7 +32,9 @@ spec:
         workspace: shared-data
       params:
       - name: url
-        value: $(params.repoUrl) # this should be the url of the dev
+        value: $(params.repoUrl)
+      - name: revision
+        value: $(params.branch-name)
     - name: lint
       runAfter: [clone]
       taskRef:
@@ -41,7 +44,38 @@ spec:
         workspace: shared-data
       params:
       - name: package
-        value: $(params.package)
+        value: $(params.repoUrl)
       - name: flags
         value: --verbose
-
+    - name: test
+      runAfter: [lint]
+      taskRef:
+        name: golang-test
+      params:
+        - name: package
+          value: $(params.repoUrl)
+      workspaces:
+        - name: source
+          workspace: shared-data
+    - name: build
+      runAfter: [test]
+      taskRef:
+        name: golang-build
+      params:
+        - name: package
+          value: $(params.repoUrl)
+        - name: packages
+          value: ./
+      workspaces:
+        - name: source
+          workspace: shared-data
+    - name: run
+      runAfter: [build]
+      taskRef: 
+        name: golang-run-dev
+      params:
+        - name: package
+          value: $(params.repoUrl)
+      workspaces:
+        - name: source
+          workspace: shared-data
