@@ -79,11 +79,11 @@ el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,900
 ### GitHub Webhook
 
 ### GitHub Action
-GitHub Actions can be created by creating a YAML-File int the .github/workflows/ directory. All YAML-Files in this directory will atomatically be executed as actions. 
+GitHub Actions can be created by creating a YAML-File int the .github/workflows/ directory. All YAML-Files in this directory will automatically be executed as actions. 
 
-The code below shows the content of our merge-schedule.yml File. Actions start with a name to differnt them in the action view. In the on section, it can be defined on what the action should listen and what should trigger it. This can be a pull or push or in our case a schedule. We wanted to create a new Version every month (by automatically merging the dev into the main) like a lot of companies have. For test reasons we changed that to once a hour. This can easily be done with crone. 
+The code below shows the content of our merge-schedule.yml File. Actions start with a name to different them in the action view. In the on section, it can be defined on what the action should listen to and what should trigger it. This can be a pull or push or in our case a schedule. We wanted to create a new Version every month (by automatically merging the dev into the main) like a lot of companies have. For test reasons we changed that to once an hour. This can easily be done with crone. 
 
-The jobs contain what the action should do once it is triggered. In our case it builds on the latest version of ubuntu. It checks out the code, sets a git config (necessary to automatically merge), it fetches and checks out the main branch. Then it merges the main with the origin/dev with the option --allow-unrelated-histories, to make sure it merges even if there are differences. Lastly it pushes the merged version. The GITHUB_TOKEN is needed for merging and pushing by the github bot that runs in the action. To give the bot this rights, it has to be activated in the project settings. 
+The jobs contain what the action should do once it is triggered. In our case it builds on the latest version of ubuntu. It checks out the code, sets a git config (necessary to automatically merge), it fetches and checks out the main branch. Then it merges the main with the origin/dev with the option --allow-unrelated-histories, to make sure it merges even if there are differences. Lastly it pushes the merged version. The GITHUB_TOKEN is needed for merging and pushing by the GitHub bot that runs in the action. To give the bot these rights, it must be activated in the project settings. 
 
 ```yml
 name: Merge Dev into Main every hour
