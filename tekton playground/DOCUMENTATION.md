@@ -1,4 +1,5 @@
 # Dokumentation
+This is a documentation of how we started to get to know Tekton. We do not guarantee that these random exampls still work. But we wanted to leave them here in this separate folder to show how much effort went into this project.
 
 ## Authenticate cluster access
 - go to cluster in google cloud, press the three dots on the right of the cluster and click "Connect". Copy the given command into your command line ;)
@@ -69,14 +70,3 @@ https://tekton.dev/docs/cli/
   kubectl get -o yaml pod <podName> | less
 ```
 ---
-
-TODO: 
-
-- [ ] Test pipeline run like on https://github.com/jerop/tekton-demo, does not work yet: https://github.com/tektoncd/pipeline/issues/5932
-- [x] Create a pipeline run file
-- [ ] Test pipeline run!
-- [ ] Create triggers
-- [ ] Test if works with pushes that staging is deployed
-- [ ] Change go to java project - golang-run to java-run
-- [ ] Implement GitHub Action to Trigger release after time period
-- [ ] Implement pipeline for production env.

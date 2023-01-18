@@ -7,7 +7,7 @@ spec:
   params:
     - name: package
       type: string
-      default: github.com/jerop/tekton-demo
+      default: github.com/seferagic/cloud-computing-project/tree/init/tekton
   workspaces:
     - name: workarea
       description: The workspace where the repo will be cloned

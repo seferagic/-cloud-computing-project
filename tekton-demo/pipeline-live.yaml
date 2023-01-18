@@ -33,22 +33,32 @@ spec:
       params:
       - name: url
         value: $(params.repoUrl)
-    - name: lint
+    - name: test
       runAfter: [clone]
       taskRef:
-        name: golangci-lint
-      workspaces:
-      - name: source
-        workspace: shared-data-live
-      params:
-      - name: package
-        value: $(params.repoUrl)
-      - name: flags
-        value: --verbose
-    - name: test
-      runAfter: [lint]
-      taskRef:
         name: golang-test
+      params:
+        - name: package
+          value: $(params.repoUrl)
+      workspaces:
+        - name: source
+          workspace: shared-data-live
+    - name: build
+      runAfter: [test]
+      taskRef:
+        name: golang-build
+      params:
+        - name: package
+          value: $(params.repoUrl)
+        - name: packages
+          value: ./
+      workspaces:
+        - name: source
+          workspace: shared-data-live
+    - name: run
+      runAfter: [build]
+      taskRef: 
+        name: golang-run-dev
       params:
         - name: package
           value: $(params.repoUrl)
