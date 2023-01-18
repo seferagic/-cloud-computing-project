@@ -1,0 +1,40 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: dev-template
+  namespace: tekton-demo
+spec:
+  params:
+  - name: repoUrl
+    default: "REPOURL_NOT_FOUND"
+  - name: pusher
+    default: "PUSHER_NOT_FOUND"
+  - name: branch-name
+    default: "dev"
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: dev-pipeline-
+    spec:
+      pipelineRef:
+        name: dev-pipeline
+      podTemplate:
+        securityContext:
+          fsGroup: 65532
+      workspaces:
+      - name: shared-data
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+      params:
+      - name: repoUrl
+        value: $(tt.params.repoUrl)
+      - name: pusher
+        value: $(tt.params.pusher)
+      - name: branch-name
+        value: $(tt.params.branch-name) 

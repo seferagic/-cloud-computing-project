@@ -1,0 +1,67 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: live-pipeline
+  namespace: tekton-demo
+spec:
+  params:
+  - name: repoUrl
+    type: string
+    default: https://github.com/danielraso7/cloud-computing-project-demoapp
+  - name: branch
+    type: string
+  - name: mergedBy
+    type: string
+  workspaces: 
+  - name: shared-data-live
+    description: This workspace contains the cloned repo files, so they can be read by the next task.
+  tasks:
+    - name: live-logger
+      taskRef:
+        name: live-logger
+      params:
+      - name: branch
+        value: $(params.branch)
+      - name: mergedBy
+        value: $(params.mergedBy)
+    - name: clone
+      taskRef:
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: shared-data-live
+      params:
+      - name: url
+        value: $(params.repoUrl)
+    - name: test
+      runAfter: [clone]
+      taskRef:
+        name: golang-test
+      params:
+        - name: package
+          value: $(params.repoUrl)
+      workspaces:
+        - name: source
+          workspace: shared-data-live
+    - name: build
+      runAfter: [test]
+      taskRef:
+        name: golang-build
+      params:
+        - name: package
+          value: $(params.repoUrl)
+        - name: packages
+          value: ./
+      workspaces:
+        - name: source
+          workspace: shared-data-live
+    - name: run
+      runAfter: [build]
+      taskRef: 
+        name: golang-run-dev
+      params:
+        - name: package
+          value: $(params.repoUrl)
+      workspaces:
+        - name: source
+          workspace: shared-data-live

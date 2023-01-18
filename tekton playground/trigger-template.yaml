@@ -1,0 +1,30 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: hello-template
+spec:
+  params:
+  - name: repoName
+    default: "REPOURL_NOT_FOUND"
+  - name: pusher
+    default: "PUSHER_NOT_FOUND"
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: TaskRun
+    metadata:
+      generateName: hello-task-run-
+    spec:
+      taskRef:
+        name: hello  
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: hello-goodbye-run-
+    spec:
+      pipelineRef:
+        name: hello-goodbye
+      params:
+      - name: repoName
+        value: $(tt.params.repoName)
+      - name: pusher
+        value: $(tt.params.pusher)

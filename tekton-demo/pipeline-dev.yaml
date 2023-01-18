@@ -1,0 +1,81 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: dev-pipeline
+  namespace: tekton-demo
+spec:
+  params:
+  - name: repoUrl
+    type: string
+  - name: pusher
+    type: string
+  - name: branch-name
+    type: string
+    description: The git branch to clone.
+  workspaces: 
+  - name: shared-data
+    description: This workspace contains the cloned repo files, so they can be read by the next task.
+  tasks:
+    - name: dev-logger
+      taskRef:
+        name: dev-logger
+      params:
+      - name: repoUrl
+        value: $(params.repoUrl)
+      - name: pusher
+        value: $(params.pusher)
+    - name: clone
+      taskRef:
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: shared-data
+      params:
+      - name: url
+        value: $(params.repoUrl)
+      - name: revision
+        value: $(params.branch-name)
+    - name: lint
+      runAfter: [clone]
+      taskRef:
+        name: golangci-lint
+      workspaces:
+      - name: source
+        workspace: shared-data
+      params:
+      - name: package
+        value: $(params.repoUrl)
+      - name: flags
+        value: --verbose
+    - name: test
+      runAfter: [lint]
+      taskRef:
+        name: golang-test
+      params:
+        - name: package
+          value: $(params.repoUrl)
+      workspaces:
+        - name: source
+          workspace: shared-data
+    - name: build
+      runAfter: [test]
+      taskRef:
+        name: golang-build
+      params:
+        - name: package
+          value: $(params.repoUrl)
+        - name: packages
+          value: ./
+      workspaces:
+        - name: source
+          workspace: shared-data
+    - name: run
+      runAfter: [build]
+      taskRef: 
+        name: golang-run-dev
+      params:
+        - name: package
+          value: $(params.repoUrl)
+      workspaces:
+        - name: source
+          workspace: shared-data

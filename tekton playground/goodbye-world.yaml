@@ -1,0 +1,17 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: goodbye
+spec:
+  params:
+  - name: repoName
+    type: string
+  - name: pusher
+    type: string
+  steps:
+    - name: push
+      image: ubuntu
+      script: |
+        #!/bin/bash
+        DATE=$(date '+%F %T')
+        echo "[$DATE] - $(params.pusher) pushed to $(params.repoName)"

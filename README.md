@@ -169,21 +169,21 @@ This is experienced after creating a docker image and running this image with th
 `docker run -p 8080:8080 my-go-app`
 
 ## Demo Procedure
-1. Commit to the dev branch of this [Repo](danielraso7_cloud-computing-project-demoapp.html)
-2. Check out the recent push webhook http request 
+### 1. Commit to the dev branch of this [Repo](danielraso7_cloud-computing-project-demoapp.html)
+### 2. Check out the recent push webhook http request 
 
 ![webhook-dev](webhook-dev.jpg)
 
-3. Open the Tekton Dashboard in the Browser with localhost:9097. In PipelineRuns you should now see 
+### 3. Open the Tekton Dashboard in the Browser with localhost:9097. In PipelineRuns you should now see 
 
 ![dev-pipeline](dev-pipeline.png)
 
-4. The Github Action starts the merg of dev into main after a specified time
-5. Check out the recent pull request webhook http request
+### 4. The Github Action starts the merg of dev into main after a specified time
+### 5. Check out the recent pull request webhook http request
 
 ![webhook-live](webhook-live.jpg)
 
-6. Open the Tekton Dashboard again to also see this pipeline run 
+### 6. Open the Tekton Dashboard again to also see this pipeline run 
 
 ![live-pipeline](live-pipeline.jpg)
 

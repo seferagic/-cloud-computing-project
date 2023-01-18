@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata: 
+  namespace: namespace-eva
+spec:
+  params:
+    - name: api-url
+      value: gcp.com
+    - name: cloud-region
+      value: us-east
+    - name: package
+      value: github.com/seferagic/cloud-computing-project/tree/init/tekton
+  pipelineRef:
+    name: pipeline
+workspaces:
+  - name: source
+    workspace: workarea
+    subpath: git

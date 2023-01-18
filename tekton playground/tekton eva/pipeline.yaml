@@ -1,0 +1,12 @@
+
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: development-pipe
+spec:
+  description: | 
+    This pipeline clones a git repo, then tests the application and runs it on a kubernetes cluster
+  params:
+  - name: repo-url
+    type: string
+    description: The git repo URL to clone from.

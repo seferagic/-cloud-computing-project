@@ -1,0 +1,11 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: dev-binding
+  namespace: tekton-demo
+spec: 
+  params:
+  - name: repoUrl
+    value: $(body.repository.url)
+  - name: pusher
+    value: $(body.pusher.name)

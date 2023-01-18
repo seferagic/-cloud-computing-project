@@ -1,0 +1,18 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: dev-logger
+  namespace: tekton-demo
+spec:
+  params:
+  - name: repoUrl
+    type: string
+  - name: pusher
+    type: string
+  steps:
+    - name: log
+      image: ubuntu
+      script: |
+        #!/bin/bash
+        DATE=$(date '+%F %T')
+        echo "[$DATE] - $(params.pusher) pushed to $(params.repoUrl)"
