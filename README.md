@@ -24,28 +24,40 @@ Tekton is a powerful yet flexible Kubernetes-native open source framework for cr
 ## Tutorial
 
 ### Requirements
+- App repository with a main (live) and dev branch
+- kubectl installed
 
 ### Commands
-`kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml`  
+First, we install the Tekton Pipeline. This basically includes the main building blocks/CRDs, including: Pipeline, PipelineRun, Task and TaskRun.
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml` 
+Install all that resources that are needed for triggers + the different kinds of interceptors.
 `kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml`    
-`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml`    
-`kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml`  
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml`
+Install Tekton Dashboard, which is a general purpose, web-based UI for Tekton Pipelines and Tekton triggers resources. It allows users to manage and view Tekton resource creation, execution, and completion.
+`kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml` 
+Now we create a namespace for our project and its resources (to have them nicely seperated from the default namespace). 
 `kubectl apply -f namespace.yaml`  
+Define the workspace which will later be shared among tasks of the same pipeline.
 `kubectl apply -f tekton-demo/workspace.yaml`  
-#### Custom definied tasks
+After we push to the dev branch, we have a task that logs information from the push event.
 `kubectl apply -f task-logger-dev.yaml`  
+After a successful pull request, we log additional information (merged by & branch)
 `kubectl apply -f task-logger-live.yaml`
-#### Tasks from the Tekton Catalog
+The following four tasks are all from the Tekton Hub. From the Tekton Hub, developers can access predefined Tasks and Pipelines (for commonly occuring tasks) that were shared by the community. 
 `kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml -n tekton-demo`  
 `kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golangci-lint/0.2/golangci-lint.yaml -n tekton-demo`  
 `kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-test/0.2/golang-test.yaml -n tekton-demo`  
-`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-build/0.3/golang-build.yaml -n tekton-demo`  
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-build/0.3/golang-build.yaml -n tekton-demo` 
+Then we create one dev and one live Pipeline resource, which are composed of previously created task definions. 
 `kubectl apply -f pipeline-dev.yaml`    
 `kubectl apply -f pipeline-live.yaml`  
+In order to extract specific payload information, we create two seperate bindings (one for dev, one for live). 
 `kubectl apply -f trigger-binding-dev.yaml`  
 `kubectl apply -f trigger-binding-live.yaml`  
+The TriggerTemplates defines what happens when a push event is detected or a pull request, respectively.  
 `kubectl apply -f trigger-template-dev.yaml`  
 `kubectl apply -f trigger-template-live.yaml`  
+The EventListener requires a service account to run, i.e., this service account allows the EventListener to create PipelineRuns. The role bindings basically define what the eventlistener is allowed to do and cannot do, respectively. 
 `kubectl apply -f rbac.yaml`  
 ```
 serviceaccount/triggers-sa created
@@ -58,6 +70,7 @@ clusterrolebinding.rbac.authorization.k8s.io/triggers-example-eventlistener-clus
 NAME             TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)                         AGE
 el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,9000:30752/TCP   48s
 ```  
+`kubectl -n tekton-pipelines port-forward svc/tekton-dashboard 9097:9097`  
 
 ### GitHub Webhook
 
