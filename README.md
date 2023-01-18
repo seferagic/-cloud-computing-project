@@ -93,13 +93,15 @@ Last but not least, we create an eventlistener of service type "load balancer" (
 ### GitHub Webhook
 Using GitHub Webhooks, we can create http requests after a specific event has happend. In our case, we got two  webhooks, one for pushes on the dev branch and one for pull requests. 
 
-First we need to get the IP and port from the eventlistener: 
+First we need to get the IP and port from the eventlistener:  
 
 `kubectl get svc/el-cd-listener -n tekton-demo`    
 ```
 NAME             TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)                         AGE
 el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,9000:30752/TCP   48s
 ``` 
+
+Then we go to our app repo, under "Settings > Webhook" 
 
 ### GitHub Action
 GitHub Actions can be created by creating a YAML-File int the .github/workflows/ directory. All YAML-Files in this directory will automatically be executed as actions. 
