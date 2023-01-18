@@ -172,7 +172,7 @@ To run this go app you have to create a docker image and run it with the option 
 
 
 ## Demo Procedure
-### 1. Commit to the dev branch of this [Repo](danielraso7_cloud-computing-project-demoapp.html)
+### 1. Commit to the dev branch of this [Repo](https://github.com/danielraso7/cloud-computing-project-demoapp)
 ### 2. Check out the recent push webhook http request 
 
 ![webhook-dev](webhook-dev.jpg)
