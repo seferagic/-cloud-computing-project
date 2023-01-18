@@ -32,101 +32,76 @@ Further resources are: [Tekton Documentation](https://tekton.dev/docs/),
 - kubectl installed
 
 ### Commands
-First, we install the Tekton Pipeline. This basically includes the main building blocks/CRDs, including: Pipeline, PipelineRun, Task and TaskRun.
+First, we install the Tekton Pipeline. This basically includes the main building blocks/CRDs, including: Pipeline, PipelineRun, Task and TaskRun.  
 `kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml` 
-Install all that resources that are needed for triggers + the different kinds of interceptors.
-`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml`    
+
+Install all that resources that are needed for triggers + the different kinds of interceptors.  
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml`      
 `kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml`
-Install Tekton Dashboard, which is a general purpose, web-based UI for Tekton Pipelines and Tekton triggers resources. It allows users to manage and view Tekton resource creation, execution, and completion.
-`kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml` 
-Now we create a namespace for our project and its resources (to have them nicely seperated from the default namespace). 
-`kubectl apply -f namespace.yaml`  
-Define the workspace which will later be shared among tasks of the same pipeline.
+
+Install Tekton Dashboard, which is a general purpose, web-based UI for Tekton Pipelines and Tekton triggers resources. It allows users to manage and view Tekton resource creation, execution, and completion.  
+`kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml`   
+
+Now we create a namespace for our project and its resources (to have them nicely seperated from the default namespace).   
+`kubectl apply -f namespace.yaml`    
+
+Define the workspace which will later be shared among tasks of the same pipeline.  
 `kubectl apply -f tekton-demo/workspace.yaml`  
-After we push to the dev branch, we have a task that logs information from the push event.
+
+After we push to the dev branch, we have a task that logs information from the push event.  
 `kubectl apply -f task-logger-dev.yaml`  
-After a successful pull request, we log additional information (merged by & branch)
+
+After a successful pull request, we log additional information (merged by & branch)  
 `kubectl apply -f task-logger-live.yaml`
-The following four tasks are all from the Tekton Hub. From the Tekton Hub, developers can access predefined Tasks and Pipelines (for commonly occuring tasks) that were shared by the community. 
-`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml -n tekton-demo`  
-`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golangci-lint/0.2/golangci-lint.yaml -n tekton-demo`  
-`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-test/0.2/golang-test.yaml -n tekton-demo`  
-`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-build/0.3/golang-build.yaml -n tekton-demo` 
-Then we create one dev and one live Pipeline resource, which are composed of previously created task definions. 
-`kubectl apply -f pipeline-dev.yaml`    
+
+The following four tasks are all from the Tekton Hub. From the Tekton Hub, developers can access predefined Tasks and Pipelines (for commonly occuring tasks) that were shared by the community.   
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml -n tekton-demo`    
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golangci-lint/0.2/golangci-lint.yaml -n tekton-demo`    
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-test/0.2/golang-test.yaml -n tekton-demo`    
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-build/0.3/golang-build.yaml -n tekton-demo`   
+
+Then we create one dev and one live Pipeline resource, which are composed of previously created task definions.   
+`kubectl apply -f pipeline-dev.yaml`      
 `kubectl apply -f pipeline-live.yaml`  
-In order to extract specific payload information, we create two seperate bindings (one for dev, one for live). 
-`kubectl apply -f trigger-binding-dev.yaml`  
+
+In order to extract specific payload information, we create two seperate bindings (one for dev, one for live).   
+`kubectl apply -f trigger-binding-dev.yaml`    
 `kubectl apply -f trigger-binding-live.yaml`  
-The TriggerTemplates defines what happens when a push event is detected or a pull request, respectively.  
-`kubectl apply -f trigger-template-dev.yaml`  
+
+The TriggerTemplates defines what happens when a push event is detected or a pull request, respectively.    
+`kubectl apply -f trigger-template-dev.yaml`    
 `kubectl apply -f trigger-template-live.yaml`  
-The EventListener requires a service account to run, i.e., this service account allows the EventListener to create PipelineRuns. The role bindings basically define what the eventlistener is allowed to do and cannot do, respectively. 
-`kubectl apply -f rbac.yaml`  
+
+The EventListener requires a service account to run, i.e., this service account allows the EventListener to create PipelineRuns. The role bindings basically define what the eventlistener is allowed to do and cannot do, respectively.   
+`kubectl apply -f rbac.yaml`    
+
 ```
 serviceaccount/triggers-sa created
 rolebinding.rbac.authorization.k8s.io/triggers-example-eventlistener-binding created
 clusterrolebinding.rbac.authorization.k8s.io/triggers-example-eventlistener-clusterbinding unchanged
 ```
+
+The interceptor of type "github" (definied in the eventlistener.yaml) checks if various constraints are met, including the check for the correct secret sent by GitHub. The secret is definied here:  
 `kubectl apply -f secret.yaml`  
+
+Last but not least, we create an eventlistener of service type "load balancer" (so we can access it from the outside rather than only from localhost with port forwarding). 
 `kubectl apply -f eventlistener.yaml`  
-```
-NAME             TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)                         AGE
-el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,9000:30752/TCP   48s
-```  
+
+
 `kubectl -n tekton-pipelines port-forward svc/tekton-dashboard 9097:9097`  
 
 ### GitHub Webhook
+Using GitHub Webhooks, we can create http requests after a specific event has happend. In our case, we got two  webhooks, one for pushes on the dev branch and one for pull requests. 
+
+First we need to get the IP and port from the eventlistener: 
+
+`kubectl get svc/el-cd-listener -n tekton-demo`    
+```
+NAME             TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)                         AGE
+el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,9000:30752/TCP   48s
+``` 
 
 ### GitHub Action
-GitHub Actions can be created by creating a YAML-File int the .github/workflows/ directory. All YAML-Files in this directory will automatically be executed as actions. 
-
-The code below shows the content of our merge-schedule.yml File. Actions start with a name to different them in the action view. In the on section, it can be defined on what the action should listen to and what should trigger it. This can be a pull or push or in our case a schedule. We wanted to create a new Version every month (by automatically merging the dev into the main) like a lot of companies have. For test reasons we changed that to once an hour. This can easily be done with crone. 
-
-The jobs contain what the action should do once it is triggered. In our case it builds on the latest version of ubuntu. It checks out the code, sets a git config (necessary to automatically merge), it fetches and checks out the main branch. Then it merges the main with the origin/dev with the option --allow-unrelated-histories, to make sure it merges even if there are differences. Lastly it pushes the merged version. The GITHUB_TOKEN is needed for merging and pushing by the GitHub bot that runs in the action. To give the bot these rights, it must be activated in the project settings. 
-
-```yml
-name: Merge Dev into Main every hour
-
-on:
-  schedule:
-    # - cron: '0 0 1 * *'   # runs every month on the first
-    - cron: '0 * * * *'     # runs every hour
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-    
-    - name: Set Mail
-      run: git config --global user.email "timseferagic@gmail.com"
-    
-    - name: Set Name
-      run: git config --global user.name "Tim"
-
-    - name: Fetch branches
-      run: git fetch
-
-    - name: Checkout main branch
-      run: git checkout main
-
-    - name: Merge dev branch
-      run: git merge origin/dev --allow-unrelated-histories
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Push changes
-      run: git push
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-```
-
-![image](https://user-images.githubusercontent.com/25606213/213147472-133a55af-a760-43e2-ad6d-111697a44ecd.png)
-
-
 
 ## Problems & Results
 During the realization of our project we encountered many bumps on the road. Here is a brief description of the hard times Tekton can give you when working with it for the first time:
