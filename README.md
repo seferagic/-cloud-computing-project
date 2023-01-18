@@ -158,7 +158,15 @@ This image shows the Actions window from our GitHub project. It shows that our a
 
 
 ## Demo App
+The demo Go program sets up a basic HTTP server that listens on port 8080. When a request is made to the server a response is sent to the client with the message "Hello, you've requested: [requested URL path]". The main function of the app sets up the server to handle requests and begins listening for incoming requests on port 8080. It uses log.Fatal function to start the server, that will cause the program to exit if an error occurs while starting the server.
 
+The following image shows the response of the serer after making a request to it.
+![image](https://user-images.githubusercontent.com/25606213/213170536-ad2e8bac-3dcd-473e-b653-b43a6ac1d713.png)
+
+This is experienced after creating a docker image and running this image with the option to use the port 8080. 
+
+`docker build -t my-go-app .` 
+`docker run -p 8080:8080 my-go-app`
 
 ## Demo Procedure
 1. Commit to the dev branch of this [Repo](danielraso7_cloud-computing-project-demoapp.html)
