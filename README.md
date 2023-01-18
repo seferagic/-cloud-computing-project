@@ -101,7 +101,11 @@ NAME             TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)           
 el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,9000:30752/TCP   48s
 ``` 
 
-Then we go to our app repo, under "Settings > Webhook" 
+Then we go to our app repo, under "Settings > Webhook" and enter the "Payload URL", set the content type to JSON and select "Just the push events".
+
+![webhook](webhook.jpg)
+
+For the pull request, do the same steps as before, just switch from push events to "Let me select individual events > Pull Requests". 
 
 ### GitHub Action
 GitHub Actions can be created by creating a YAML-File int the .github/workflows/ directory. All YAML-Files in this directory will automatically be executed as actions. 
@@ -150,6 +154,18 @@ jobs:
 ```
 
 ![image](https://user-images.githubusercontent.com/25606213/213147472-133a55af-a760-43e2-ad6d-111697a44ecd.png)
+
+## Demo App
+
+
+## Demo Procedure
+1. Commit to the dev branch of this [Repo](danielraso7_cloud-computing-project-demoapp.html)
+2. Check out the recent push webhook http request ...PIC
+3. Open the Tekton Dashboard in the Browser with localhost:9097. In PipelineRuns you should now see ![dev-pipeline](dev-pipeline.png)
+4. The Github Action starts the merg of dev into main after a specified time
+5. Check out the recent pull request webhook http request ...PIC
+6. Open the Tekton Dashboard again to also see this pipeline run
+
 
 ## Problems & Results
 During the realization of our project we encountered many bumps on the road. Here is a brief description of the hard times Tekton can give you when working with it for the first time:
