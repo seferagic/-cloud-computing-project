@@ -26,17 +26,38 @@ Tekton is a powerful yet flexible Kubernetes-native open source framework for cr
 ### Requirements
 
 ### Commands
-`kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml`
-`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml`  
-`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml`  
-`kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml`
-``  
-``  
-``  
-``  
-``  
-``  
-``  
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml`  
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml`    
+`kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/interceptors.yaml`    
+`kubectl apply -f https://github.com/tektoncd/dashboard/releases/latest/download/tekton-dashboard-release.yaml`  
+`kubectl apply -f namespace.yaml`  
+`kubectl apply -f tekton-demo/workspace.yaml`  
+#### Custom definied tasks
+`kubectl apply -f task-logger-dev.yaml`  
+`kubectl apply -f task-logger-live.yaml`
+#### Tasks from the Tekton Catalog
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/git-clone/0.9/git-clone.yaml -n tekton-demo`  
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golangci-lint/0.2/golangci-lint.yaml -n tekton-demo`  
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-test/0.2/golang-test.yaml -n tekton-demo`  
+`kubectl apply -f https://raw.githubusercontent.com/tektoncd/catalog/main/task/golang-build/0.3/golang-build.yaml -n tekton-demo`  
+`kubectl apply -f pipeline-dev.yaml`    
+`kubectl apply -f pipeline-live.yaml`  
+`kubectl apply -f trigger-binding-dev.yaml`  
+`kubectl apply -f trigger-binding-live.yaml`  
+`kubectl apply -f trigger-template-dev.yaml`  
+`kubectl apply -f trigger-template-live.yaml`  
+`kubectl apply -f rbac.yaml`  
+```
+serviceaccount/triggers-sa created
+rolebinding.rbac.authorization.k8s.io/triggers-example-eventlistener-binding created
+clusterrolebinding.rbac.authorization.k8s.io/triggers-example-eventlistener-clusterbinding unchanged
+```
+`kubectl apply -f secret.yaml`  
+`kubectl apply -f eventlistener.yaml`  
+```
+NAME             TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)                         AGE
+el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,9000:30752/TCP   48s
+```  
 
 ### GitHub Webhook
 
