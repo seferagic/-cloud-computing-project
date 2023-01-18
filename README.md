@@ -79,6 +79,54 @@ el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,900
 ### GitHub Webhook
 
 ### GitHub Action
+GitHub Actions can be created by creating a YAML-File int the .github/workflows/ directory. All YAML-Files in this directory will atomatically be executed as actions. 
+
+The code below shows the content of our merge-schedule.yml File. Actions start with a name to differnt them in the action view. In the on section, it can be defined on what the action should listen and what should trigger it. This can be a pull or push or in our case a schedule. We wanted to create a new Version every month (by automatically merging the dev into the main) like a lot of companies have. For test reasons we changed that to once a hour. This can easily be done with crone. 
+
+The jobs contain what the action should do once it is triggered. In our case it builds on the latest version of ubuntu. It checks out the code, sets a git config (necessary to automatically merge), it fetches and checks out the main branch. Then it merges the main with the origin/dev with the option --allow-unrelated-histories, to make sure it merges even if there are differences. Lastly it pushes the merged version. The GITHUB_TOKEN is needed for merging and pushing by the github bot that runs in the action. To give the bot this rights, it has to be activated in the project settings. 
+
+```yml
+name: Merge Dev into Main every hour
+
+on:
+  schedule:
+    # - cron: '0 0 1 * *'   # runs every month on the first
+    - cron: '0 * * * *'     # runs every hour
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    - name: Set Mail
+      run: git config --global user.email "timseferagic@gmail.com"
+    
+    - name: Set Name
+      run: git config --global user.name "Tim"
+
+    - name: Fetch branches
+      run: git fetch
+
+    - name: Checkout main branch
+      run: git checkout main
+
+    - name: Merge dev branch
+      run: git merge origin/dev --allow-unrelated-histories
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Push changes
+      run: git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+![image](https://user-images.githubusercontent.com/25606213/213147472-133a55af-a760-43e2-ad6d-111697a44ecd.png)
+
+
 
 ## Problems & Results
 During the realization of our project we encountered many bumps on the road. Here is a brief description of the hard times Tekton can give you when working with it for the first time:
