@@ -20,6 +20,10 @@ Tekton is a powerful yet flexible Kubernetes-native open source framework for cr
 ![project_structure](project_structure.png)
 
 ## Summary of research
+To get familiar with Tekton implementing the Getting Started with [Tasks](https://tekton.dev/docs/getting-started/tasks/), with [Pipelines](https://tekton.dev/docs/getting-started/pipelines/) and with [Triggers](https://tekton.dev/docs/getting-started/triggers/) from the Tekton documentation helps a lot. 
+
+Further resources are: [Tekton Documentation](https://tekton.dev/docs/),
+[Tekton Youtube Videos](https://tekton.dev/docs/getting-started/) and [Sebastian Daschner](https://www.youtube.com/playlist?list=PLEV9ul4qfGOYLooAW9hnekIOyCMtI7zaZ)
 
 ## Tutorial
 
@@ -77,3 +81,16 @@ el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,900
 ### GitHub Action
 
 ## Problems & Results
+During the realization of our project we encountered many bumps on the road. Here is a brief description of the hard times Tekton can give you when working with it for the first time:
+
+### 1. tkn has a bug
+The Tekton Pipelines CLI (tkn) has a [bug](https://github.com/tektoncd/cli/issues/1837) in its latest version, which makes it impossible to install tasks from Tekton Hub via tkn. 
+Solution: Since tkn is not working to this day, we used kubectl.
+
+### 2. Run the go project in Docker
+In order to build a Dockerimage and run it, an authentication for e.g. DockerHub is needed. Tekton implements this with Tekton secrets. Sadly, time got too short to understand how to include the DockerHub authentification and therefore build and run the Image.
+Solution: We built the project as a golang project, which we could not run in the end. 
+Although we did not get the last task of the pipeline running, we learned a great deal about all the other concepts of Tekton.
+
+### 3. Line Indentations of YAML
+Sometimes nothing other than the line indentation is wrong with your project and sometimes it takes hours to get it right.
