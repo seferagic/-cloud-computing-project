@@ -101,7 +101,7 @@ NAME             TYPE           CLUSTER-IP   EXTERNAL-IP      PORT(S)           
 el-cd-listener   LoadBalancer   10.76.8.90   35.226.176.142   8080:32540/TCP,9000:30752/TCP   48s
 ``` 
 
-Then we go to our app repo, under "Settings > Webhook" and enter the "Payload URL", set the content type to JSON and select "Just the push events".
+Then we go to our app repo, under "Settings > Webhook" and enter the "Payload URL", set the content type to JSON, enter the previously definied secret, and select "Just the push events".
 
 ![webhook](webhook.jpg)
 
