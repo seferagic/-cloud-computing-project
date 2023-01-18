@@ -23,7 +23,7 @@ Tekton is a powerful yet flexible Kubernetes-native open source framework for cr
 To get familiar with Tekton implementing the Getting Started with [Tasks](https://tekton.dev/docs/getting-started/tasks/), with [Pipelines](https://tekton.dev/docs/getting-started/pipelines/) and with [Triggers](https://tekton.dev/docs/getting-started/triggers/) from the Tekton documentation helps a lot. 
 
 Further resources are: [Tekton Documentation](https://tekton.dev/docs/),
-[Tekton Youtube Videos](https://tekton.dev/docs/getting-started/) and [Sebastian Daschner](https://www.youtube.com/playlist?list=PLEV9ul4qfGOYLooAW9hnekIOyCMtI7zaZ)
+[Tekton Youtube Videos](https://tekton.dev/docs/getting-started/), [Code in Action](https://www.youtube.com/playlist?list=PLeLcvrwLe185j54ZV-CoPjeixY8GjEwVB) and [Sebastian Daschner](https://www.youtube.com/playlist?list=PLEV9ul4qfGOYLooAW9hnekIOyCMtI7zaZ)
 
 ## Tutorial
 
@@ -96,3 +96,6 @@ Although we did not get the last task of the pipeline running, we learned a grea
 
 ### 3. Line Indentations of YAML
 Sometimes nothing other than the line indentation is wrong with your project and sometimes it takes hours to get it right.
+
+### 4. GitHub Raw
+GitHub hosts raw files at https://raw.githubusercontent.com. You can use that link to download the raw contents of the file or use it after `kubectl apply -f ...`. When you push a change to the file, it doesn't update instantly, because raw files are updated after 5 minutes. This fact was pretty annoying when trying to create the same resource after a short period of time, because you had to wait for those ~5 minutes.  
