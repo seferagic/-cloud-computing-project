@@ -108,9 +108,9 @@ Then we go to our app repo, under "Settings > Webhook" and enter the "Payload UR
 For the pull request, do the same steps as before, just switch from push events to "Let me select individual events > Pull Requests". 
 
 ### GitHub Action
-GitHub Actions can be created by creating a YAML-File int the .github/workflows/ directory. All YAML-Files in this directory will automatically be executed as actions. 
+GitHub Actions can be used by creating a YAML-File int the .github/workflows/ directory. All YAML-Files in this directory will automatically be executed as actions. 
 
-The code below shows the content of our merge-schedule.yml File. Actions start with a name to different them in the action view. In the on section, it can be defined on what the action should listen to and what should trigger it. This can be a pull or push or in our case a schedule. We wanted to create a new Version every month (by automatically merging the dev into the main) like a lot of companies have. For test reasons we changed that to once an hour. This can easily be done with crone. 
+The code below shows the content of our merge-schedule.yml File. Actions start with a name to different them in the action view. The on: sectionis to define on what the action should listen to and what should trigger it. This can be a pull or push or in our case a schedule. We want to create a new version every month (by automatically merging the dev into the main) like a lot of companies have. For test reasons we changed that to once an hour. This can easily be done with crone.
 
 The jobs contain what the action should do once it is triggered. In our case it builds on the latest version of ubuntu. It checks out the code, sets a git config (necessary to automatically merge), it fetches and checks out the main branch. Then it merges the main with the origin/dev with the option --allow-unrelated-histories, to make sure it merges even if there are differences. Lastly it pushes the merged version. The GITHUB_TOKEN is needed for merging and pushing by the GitHub bot that runs in the action. To give the bot these rights, it must be activated in the project settings. 
 
@@ -153,7 +153,9 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-![image](https://user-images.githubusercontent.com/25606213/213147472-133a55af-a760-43e2-ad6d-111697a44ecd.png)
+This image shows the Actions window from our GitHub project. It shows that our action was executed, that all jobs run through and what it did.
+![image](https://user-images.githubusercontent.com/25606213/213167445-8860fe2f-94fa-463d-8c13-603b5302ebb8.png)
+
 
 ## Demo App
 
