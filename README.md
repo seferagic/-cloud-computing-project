@@ -17,5 +17,5 @@ Tekton is a powerful yet flexible Kubernetes-native open source framework for cr
 `Trigger`: help to automatically invoke a pipeline (e.g. after push on repo). Triggers consist of three CRD: `TriggerBinding`, `TriggerTemplate`, `Eventlistener`. The binding extracts relevant information inside the event payload and sets some of the later used parameters. The template is a blueprint for creating pipelines and/or tasks, i.e., it defines the PipelineRuns and/or TaskRuns. The eventlistner K8s object is basically a service that encompasses both the TriggerTemplates and TriggerBindings and listens for events.
 
 ### Concrete project structure
-
+![project_structure](project_structure.png)
 
